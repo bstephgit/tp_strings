@@ -12,9 +12,9 @@
 #define LOAD_OPT	"--load"
 
 #include <dlfcn.h>
-#define UPPER_LIB	"libupper_d.so"
-#define LOWER_LIB	"liblower_d.so"
-#define ROT13_LIB	"librot13_d.so"
+#define UPPER_LIB	"libupper.so"
+#define LOWER_LIB	"liblower.so"
+#define ROT13_LIB	"librot13.so"
 #define DYN_FUNCTION_NAME	"module_execute"
 
 #define 	COMMAND_INDEX		1
