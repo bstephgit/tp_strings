@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "printmsg.h"
+#include "utils.h"
 #include "lower.h"
 #include "upper.h"
 #include "rot13.h"
@@ -35,7 +35,7 @@ HMODULE load_module(const char* module_name)
 	return handle;
 }
 
-HMODULE unload_module(HMODULE handle)
+void unload_module(HMODULE handle)
 {
 	if(handle)
 	{
@@ -45,16 +45,23 @@ HMODULE unload_module(HMODULE handle)
 
 FUNC_PTR get_dyn_function(HMODULE handle, const char* module_name, const char* function_name)
 {
-	FUNC_PTR fptr = NULL;
 	if(handle)
 	{
-		fptr = dlsym(handle,function_name);
-		if(!fptr)
+		//to circumvent ISO C cast from obj pointer to function pointer forbidden
+		struct func_object{
+			FUNC_PTR fptr;
+		} *obj;
+		obj = (struct func_object*)dlsym(handle,function_name);
+		if(!obj)
 		{
 			printmsg("cannot load function '%s' from module '%s'\n",function_name,module_name);
 		}
+		else
+		{
+			return obj->fptr;
+		}
 	}
-	return fptr;
+	return NULL;
 }
 
 void process_args(FUNC_PTR fptr, int from, int to, char* args[])

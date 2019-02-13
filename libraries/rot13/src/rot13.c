@@ -2,14 +2,13 @@
 #include <string.h>
 
 #ifdef SHARED_LIB
-void module_execute(const char* input_str, char* output_str)
+void module_execute_n(const char* input_str, char* output_str, size_t len)
 #else
-void rot13(const char* input_str, char* output_str)
+void rot13_n(const char* input_str, char* output_str, size_t len)
 #endif
 {
 
-	int j;
-	unsigned int len = strlen(input_str);
+	unsigned int j;
 	for(j=0; j<len; j+=1)
 	{
 		char c = input_str[j];
@@ -29,5 +28,20 @@ void rot13(const char* input_str, char* output_str)
 		}
 		output_str[j] = c;
 	}
+}
+
+
+#ifdef SHARED_LIB
+void module_execute(const char* input_str, char* output_str)
+#else
+void rot13(const char* input_str, char* output_str)
+#endif
+{
+	unsigned int len = strlen(input_str);
+#ifdef SHARED_LIB
+	module_execute_n(input_str, output_str, len);
+#else
+	rot13_n(input_str, output_str, len);
+#endif
 }
 
