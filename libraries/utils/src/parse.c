@@ -36,18 +36,22 @@ char* parse_after(char* input, const char* end, const char seps[])
 {
 
 	size_t sep_len = strlen(seps);
-	char* p = parse_to(input,end,seps);
+	char* p = input;
+	bool is_equal = true;
+	unsigned int i;
+
 	while(p < end)
 	{
 #ifdef DEBUG
 		charcode(p,1);
 #endif
-		unsigned int i;
-		bool is_equal = false;
+		is_equal = false;
 		for(i=0; !is_equal && i<sep_len; i += 1)
 		{
 				is_equal = (*p == seps[i]);
 		}
+		if(!is_equal)
+			return p;
 		p += 1;
 	}
 	return p;

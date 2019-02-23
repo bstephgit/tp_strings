@@ -6,7 +6,7 @@ char* _itoa( int n, char to[])
 	int index = 0;
 	char table[] = "0123456789";
 		
-	int sign;
+	int sign=1;
 	int d,mod;
 
 	if(n<0)

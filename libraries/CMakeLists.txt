@@ -18,3 +18,4 @@ target_compile_definitions(upper PRIVATE SHARED_LIB)
 target_compile_definitions(lower PRIVATE SHARED_LIB)
 target_compile_definitions(rot13 PRIVATE SHARED_LIB)
 
+add_subdirectory(tst ./test)
