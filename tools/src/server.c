@@ -3,7 +3,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h> //inet_addr
 #include <unistd.h> //write
-#include <error.h>
+#include <err.h>
 #include <dlfcn.h>
 #include <stdbool.h>
 #include <errno.h>
@@ -70,7 +70,7 @@ int exec_command(const char* command, const char* module, char* parsed, int pars
 			{
 				const char format[] = "function '%s' not found in module '%s'\n";
 				sprintf(error_buffer,format,DYNAMIC_MODULE_FUNCTION,module);
-				error(-1,2,format,DYNAMIC_MODULE_FUNCTION,module);
+				err(-1,format,DYNAMIC_MODULE_FUNCTION,module);
 				res = -1;
 			}
 		}
@@ -173,7 +173,7 @@ void OnModule(HPARSER parser)
 		{	
 			BUF(parser)[i+2] =	BUF(parser)[i-1];
 		}
-		strncpy(BUF(parser),"lib",3);
+		strncpy(BUF(parser),"lib",4);
 		strcpy(BUF(parser)+len+3,".so");
 		printmsg("module to load: %s\n",MOD(parser));
 
@@ -228,7 +228,7 @@ void ParserReset(HPARSER parser)
 void OnError(HPARSER parser)
 {
 		SET_STATE(parser,Escape2);
-		error(-1,2,"%s",ERROR(parser));
+		err(-1,"%s",ERROR(parser));
 		printmsg("Error: abort program\n");
 		write(SOCK(parser),ERROR(parser),strlen(ERROR(parser)));
 }
